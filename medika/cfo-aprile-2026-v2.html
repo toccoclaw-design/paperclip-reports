@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report CFO — Radiologia Mediterranea (Medika) — Gen-Apr 2026</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+      color: #1a1a2e;
+      background: #f4f6fb;
+    }
+
+    .wrapper {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+      color: #fff;
+      border-radius: 12px;
+      padding: 40px 48px;
+      margin-bottom: 32px;
+    }
+    header h1 {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      margin-bottom: 8px;
+    }
+    header .subtitle {
+      font-size: 14px;
+      opacity: 0.75;
+      margin-bottom: 28px;
+    }
+    .kpi-row {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .kpi {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      padding: 14px 20px;
+      min-width: 140px;
+    }
+    .kpi .label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      opacity: 0.6;
+      margin-bottom: 4px;
+    }
+    .kpi .value {
+      font-size: 22px;
+      font-weight: 700;
+    }
+    .kpi .note {
+      font-size: 11px;
+      opacity: 0.55;
+      margin-top: 2px;
+    }
+
+    /* EXEC SUMMARY BANNER */
+    .exec-banner {
+      background: #e8f4fd;
+      border-left: 5px solid #0f3460;
+      border-radius: 8px;
+      padding: 18px 24px;
+      margin-bottom: 32px;
+      font-size: 14px;
+      color: #0d2a47;
+    }
+    .exec-banner strong { font-size: 15px; }
+    .exec-banner ul {
+      margin-top: 10px;
+      padding-left: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    /* SECTION CARDS */
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      padding: 32px 36px;
+      margin-bottom: 28px;
+    }
+    .card h2 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #0f3460;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e8ecf5;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .card h2 .num {
+      background: #0f3460;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .card h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #0f3460;
+      margin: 20px 0 10px;
+    }
+
+    /* TABLES */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+      margin: 16px 0;
+    }
+    thead tr { background: #f0f4ff; }
+    th {
+      text-align: left;
+      padding: 10px 14px;
+      font-weight: 600;
+      color: #0f3460;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    th.right, td.right { text-align: right; }
+    td {
+      padding: 9px 14px;
+      border-bottom: 1px solid #f0f2f7;
+      color: #333;
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: #fafbff; }
+    tr.total-row td {
+      background: #f0f4ff;
+      font-weight: 700;
+      color: #0f3460;
+      border-top: 2px solid #d0d8f0;
+    }
+    tr.highlight-row td { background: #fff8e1; }
+    tr.record-row td { background: #e8f5e9; }
+    tr.summary-row td { background: #f0f4ff; font-style: italic; color: #555; }
+
+    /* BADGES */
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 11.5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+    .badge-critical { background: #fde8e8; color: #c0392b; }
+    .badge-high     { background: #fef0e6; color: #d35400; }
+    .badge-medium   { background: #fef9e7; color: #b7950b; }
+    .badge-low      { background: #e9f7ef; color: #1e8449; }
+    .badge-info     { background: #e8f4fd; color: #1a6fa8; }
+
+    /* NOTE BOX */
+    .note-box {
+      background: #f8faff;
+      border: 1px solid #e0e8f7;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-size: 13.5px;
+      color: #555;
+      margin: 16px 0;
+      font-style: italic;
+    }
+
+    /* WARNING BOX */
+    .warning-box {
+      background: #fef9e7;
+      border-left: 4px solid #b7950b;
+      border-radius: 0 8px 8px 0;
+      padding: 14px 18px;
+      font-size: 13.5px;
+      color: #6b4c00;
+      margin: 16px 0;
+    }
+
+    /* RISK ITEMS */
+    .risk-item {
+      border-radius: 8px;
+      padding: 16px 20px;
+      border-left: 4px solid;
+      margin-bottom: 14px;
+    }
+    .risk-item.high { background: #fef0e6; border-color: #d35400; }
+    .risk-item.medium { background: #fef9e7; border-color: #b7950b; }
+    .risk-item.low { background: #e9f7ef; border-color: #1e8449; }
+    .risk-item h3 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #1a1a2e;
+    }
+    .risk-item p { font-size: 13.5px; color: #444; margin-top: 4px; }
+    .risk-item .action { font-size: 13px; margin-top: 8px; font-weight: 600; color: #333; }
+
+    /* ACTION BLOCKS */
+    .action-block { margin-bottom: 18px; }
+    .action-block h3 {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      padding: 6px 12px;
+      border-radius: 6px;
+    }
+    .action-block.urgent h3 { background: #fde8e8; color: #c0392b; }
+    .action-block.high-p h3 { background: #fef0e6; color: #d35400; }
+    .action-block.medium-p h3 { background: #fef9e7; color: #7a5a00; }
+    .action-block.low-p h3 { background: #e8f4fd; color: #1a6fa8; }
+    .action-block ol {
+      padding-left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .action-block li { font-size: 14px; }
+    .action-block li strong { color: #0f3460; }
+
+    /* FORECAST RANGE */
+    .forecast-range {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin: 16px 0;
+    }
+    .forecast-box {
+      flex: 1;
+      min-width: 140px;
+      border-radius: 10px;
+      padding: 16px 20px;
+      text-align: center;
+    }
+    .forecast-box .month { font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px; opacity: 0.7; margin-bottom: 4px; }
+    .forecast-box .range { font-size: 18px; font-weight: 700; margin: 4px 0; }
+    .forecast-box .basis { font-size: 11px; opacity: 0.65; }
+    .forecast-box.optimistic { background: #e8f5e9; color: #1e6b3a; }
+    .forecast-box.base { background: #e8f4fd; color: #0d4f7a; }
+    .forecast-box.cautious { background: #fef9e7; color: #7a5a00; }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      font-size: 12px;
+      color: #999;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <header>
+    <h1>Report CFO &mdash; Radiologia Mediterranea Srl (Medika)</h1>
+    <p class="subtitle">Analisi Fatturato: Gennaio &ndash; Aprile 2026 &nbsp;|&nbsp; Elaborato da: Group CFO, Amat Srl &nbsp;|&nbsp; 28 aprile 2026</p>
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="label">Fatturato Gen&ndash;Apr</div>
+        <div class="value">&euro;102.052</div>
+        <div class="note">Parziale al 27/04</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Fatture Emesse</div>
+        <div class="value">979</div>
+        <div class="note">100% privati</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Ticket Medio</div>
+        <div class="value">&euro;104,24</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Run-Rate Mar&ndash;Apr</div>
+        <div class="value">&euro;7.020/w</div>
+        <div class="note">Media ultime 8 sett.</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- EXECUTIVE SUMMARY -->
+  <div class="exec-banner">
+    <strong>Executive Summary</strong>
+    <ul>
+      <li>Fatturato Gen-Apr 2026: <strong>&euro;102.052</strong> su 979 fatture (parziale al 27/04 &mdash; stimati &euro;3.000&ndash;4.000 aggiuntivi per chiusura aprile).</li>
+      <li><strong>Marzo 2026 &egrave; il mese pi&ugrave; forte</strong> del periodo: &euro;30.814 (+25,7% vs gennaio, +46,1% vs febbraio).</li>
+      <li>Trend settimanale in accelerazione: da ~&euro;5.700/sett. a gennaio a ~&euro;7.000/sett. a marzo&ndash;aprile. <strong>Picco W16: &euro;8.490.</strong></li>
+      <li><strong>Anomalia W09 (23&ndash;28 febbraio):</strong> solo 22 fatture, &euro;2.533 (&minus;63% sul numero prestazioni vs media). Causa da verificare.</li>
+      <li>Clientela <strong>100% privata</strong>: nessuna prestazione SSN nel periodo. Rischio di concentrazione da valutare.</li>
+    </ul>
+  </div>
+
+  <!-- 1. ANALISI RICAVI -->
+  <div class="card">
+    <h2><span class="num">1</span> Analisi Ricavi &mdash; Radiologia Mediterranea Srl (Medika)</h2>
+
+    <h3>1.1 Riepilogo mensile</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Mese</th>
+          <th class="right">Fatture</th>
+          <th class="right">Fatturato Lordo (&euro;)</th>
+          <th class="right">Note Credito (&euro;)</th>
+          <th class="right">Fatturato Netto (&euro;)</th>
+          <th class="right">Ticket Medio (&euro;)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Gennaio 2026</td>
+          <td class="right">231</td>
+          <td class="right">24.510,00</td>
+          <td class="right">0,00</td>
+          <td class="right"><strong>24.510,00</strong></td>
+          <td class="right">106,10</td>
+        </tr>
+        <tr>
+          <td>Febbraio 2026</td>
+          <td class="right">199</td>
+          <td class="right">21.112,00</td>
+          <td class="right">0,00</td>
+          <td class="right"><strong>21.112,00</strong></td>
+          <td class="right">106,09</td>
+        </tr>
+        <tr class="record-row">
+          <td><strong>Marzo 2026</strong> &#9733; top</td>
+          <td class="right"><strong>310</strong></td>
+          <td class="right"><strong>30.814,00</strong></td>
+          <td class="right">0,00</td>
+          <td class="right"><strong>30.814,00</strong></td>
+          <td class="right">99,40</td>
+        </tr>
+        <tr>
+          <td>Aprile 2026 (*)</td>
+          <td class="right">239</td>
+          <td class="right">25.616,00</td>
+          <td class="right">0,00</td>
+          <td class="right"><strong>25.616,00</strong></td>
+          <td class="right">107,18</td>
+        </tr>
+        <tr class="total-row">
+          <td>TOTALE</td>
+          <td class="right">979</td>
+          <td class="right">102.052,00</td>
+          <td class="right">0,00</td>
+          <td class="right">&euro; 102.052,00</td>
+          <td class="right">104,24</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:12.5px; color:#888; margin-top:6px;">(*) Aprile parziale: dati al 27/04/2026. Stimati ~&euro;3.000&ndash;4.000 aggiuntivi per chiusura mese (28&ndash;30 aprile, 3 gg lavorativi).</p>
+
+    <h3>1.2 Analisi settimanale dettagliata</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Settimana</th>
+          <th>Periodo</th>
+          <th class="right">Fatture</th>
+          <th class="right">Fatturato (&euro;)</th>
+          <th>Note</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>W01</td><td>02/01&ndash;03/01</td><td class="right">17</td><td class="right">1.611,00</td><td style="color:#888; font-size:13px;">Settimana parziale (2 gg)</td></tr>
+        <tr><td>W02</td><td>05/01&ndash;10/01</td><td class="right">42</td><td class="right">4.461,00</td><td></td></tr>
+        <tr><td>W03</td><td>12/01&ndash;17/01</td><td class="right">61</td><td class="right">6.797,00</td><td></td></tr>
+        <tr><td>W04</td><td>19/01&ndash;24/01</td><td class="right">59</td><td class="right">6.389,00</td><td></td></tr>
+        <tr><td>W05</td><td>26/01&ndash;31/01</td><td class="right">52</td><td class="right">5.252,00</td><td></td></tr>
+        <tr><td>W06</td><td>02/02&ndash;06/02</td><td class="right">65</td><td class="right">6.695,00</td><td></td></tr>
+        <tr><td>W07</td><td>09/02&ndash;14/02</td><td class="right">54</td><td class="right">5.784,00</td><td></td></tr>
+        <tr><td>W08</td><td>16/02&ndash;21/02</td><td class="right">58</td><td class="right">6.100,00</td><td></td></tr>
+        <tr class="highlight-row">
+          <td><strong>W09</strong></td>
+          <td><strong>23/02&ndash;28/02</strong></td>
+          <td class="right"><strong>22</strong></td>
+          <td class="right"><strong>2.533,00</strong></td>
+          <td><span class="badge badge-critical">&#9888; ANOMALIA &mdash; verificare</span></td>
+        </tr>
+        <tr><td>W10</td><td>02/03&ndash;07/03</td><td class="right">76</td><td class="right">6.950,00</td><td></td></tr>
+        <tr><td>W11</td><td>09/03&ndash;14/03</td><td class="right">73</td><td class="right">7.266,00</td><td></td></tr>
+        <tr><td>W12</td><td>16/03&ndash;21/03</td><td class="right">69</td><td class="right">7.292,00</td><td></td></tr>
+        <tr><td>W13</td><td>23/03&ndash;28/03</td><td class="right">70</td><td class="right">7.152,00</td><td></td></tr>
+        <tr><td>W14</td><td>30/03&ndash;03/04</td><td class="right">53</td><td class="right">5.472,00</td><td style="color:#888; font-size:13px;">Sett. mista Mar-Apr</td></tr>
+        <tr><td>W15</td><td>07/04&ndash;11/04</td><td class="right">55</td><td class="right">5.660,00</td><td></td></tr>
+        <tr class="record-row">
+          <td><strong>W16</strong></td>
+          <td><strong>13/04&ndash;18/04</strong></td>
+          <td class="right"><strong>76</strong></td>
+          <td class="right"><strong>8.490,00</strong></td>
+          <td><span class="badge badge-low">&#9733; Picco massimo</span></td>
+        </tr>
+        <tr><td>W17</td><td>20/04&ndash;24/04</td><td class="right">73</td><td class="right">7.879,00</td><td></td></tr>
+        <tr><td>W18</td><td>27/04&ndash;27/04</td><td class="right">4</td><td class="right">269,00</td><td style="color:#888; font-size:13px;">Settimana parziale (1 gg)</td></tr>
+        <tr class="summary-row">
+          <td colspan="2"><strong>Media settimanale</strong> (escluse parz.)</td>
+          <td class="right"><strong>~54 FT</strong></td>
+          <td class="right"><strong>~&euro;5.670</strong></td>
+          <td></td>
+        </tr>
+        <tr class="summary-row">
+          <td colspan="2"><strong>Media settimanale Mar&ndash;Apr</strong></td>
+          <td class="right"><strong>~67 FT</strong></td>
+          <td class="right"><strong>~&euro;7.020</strong></td>
+          <td>Run-rate corrente</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>1.3 Mix di clientela</h3>
+    <table>
+      <thead>
+        <tr><th>Tipologia</th><th class="right">Fatture</th><th class="right">Importo (&euro;)</th><th class="right">% sul totale</th></tr>
+      </thead>
+      <tbody>
+        <tr class="record-row">
+          <td><strong>Privati (P)</strong></td>
+          <td class="right"><strong>979</strong></td>
+          <td class="right"><strong>102.052,00</strong></td>
+          <td class="right"><strong>100,0%</strong></td>
+        </tr>
+        <tr>
+          <td>SSN (S)</td>
+          <td class="right">0</td>
+          <td class="right">0,00</td>
+          <td class="right">0,0%</td>
+        </tr>
+        <tr class="total-row">
+          <td>TOTALE</td>
+          <td class="right">979</td>
+          <td class="right">102.052,00</td>
+          <td class="right">100%</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="warning-box">
+      La totalit&agrave; dei ricavi proviene da pazienti privati. Nessuna convenzione SSN attiva nel periodo. Dato anomalo per una struttura di diagnostica per immagini &mdash; si raccomanda verifica con la direzione.
+    </div>
+
+    <h3>1.4 Statistiche ticket</h3>
+    <table>
+      <thead><tr><th>Indicatore</th><th class="right">Valore</th></tr></thead>
+      <tbody>
+        <tr><td>Ticket medio Gen-Apr</td><td class="right"><strong>&euro;104,24</strong></td></tr>
+        <tr><td>Ticket minimo</td><td class="right">&euro;30,00</td></tr>
+        <tr><td>Ticket massimo</td><td class="right">&euro;402,00</td></tr>
+        <tr><td>Ticket modale (stimato)</td><td class="right">&euro;92,00</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 2. ANALISI DEI COSTI -->
+  <div class="card">
+    <h2><span class="num">2</span> Analisi dei Costi</h2>
+    <div class="note-box">
+      <strong>Dati non disponibili.</strong> Il file allegato contiene esclusivamente il registro delle fatture attive (ricavi). Per un&rsquo;analisi del margine operativo &egrave; necessario ricevere:
+    </div>
+    <ul style="padding-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: #444; margin-top: 10px;">
+      <li>Estratti conto bancari o libro mastro costi</li>
+      <li>Costi del personale (cedolini o prospetto paga)</li>
+      <li>Costi di struttura (affitti, utenze, manutenzione)</li>
+      <li>Costi delle forniture/materiali diagnostici</li>
+    </ul>
+  </div>
+
+  <!-- 3. STATO CASH FLOW -->
+  <div class="card">
+    <h2><span class="num">3</span> Stato del Cash Flow</h2>
+    <div class="note-box">
+      <strong>Dati non disponibili nella fonte corrente.</strong> Tutte le 979 fatture riportano la colonna &ldquo;E/C&rdquo; = <strong>C (Contante/Incassato)</strong>, il che suggerisce che i pagamenti siano stati registrati come incassati al momento della prestazione. Se confermato, il cash flow operativo sarebbe allineato ai ricavi (&euro;102.052).
+    </div>
+    <div class="warning-box">
+      <strong>Da verificare con il commercialista:</strong> il flag &ldquo;C&rdquo; indica effettivo incasso o semplice modalit&agrave; di pagamento prevista?
+    </div>
+  </div>
+
+  <!-- 4. PREVISIONE -->
+  <div class="card">
+    <h2><span class="num">4</span> Previsione Mensile &mdash; Prossimi 3 Mesi</h2>
+    <p style="font-size:13.5px; color:#555; margin-bottom:16px;">
+      <em>Base di calcolo: run-rate settimanale delle ultime 8 settimane (W10&ndash;W17): media &euro;7.020/settimana.</em>
+    </p>
+    <div class="forecast-range">
+      <div class="forecast-box optimistic">
+        <div class="month">Maggio 2026</div>
+        <div class="range">&euro;29.000&ndash;31.000</div>
+        <div class="basis">4,3 sett. &times; run-rate attuale</div>
+      </div>
+      <div class="forecast-box base">
+        <div class="month">Giugno 2026</div>
+        <div class="range">&euro;25.000&ndash;28.000</div>
+        <div class="basis">Lieve flessione stagionale estiva</div>
+      </div>
+      <div class="forecast-box cautious">
+        <div class="month">Luglio 2026</div>
+        <div class="range">&euro;20.000&ndash;24.000</div>
+        <div class="basis">Rallentamento ferie (&minus;15/20%)</div>
+      </div>
+    </div>
+    <div class="warning-box" style="margin-top:12px;">
+      <strong>Rischio downside:</strong> se W09 si ripetesse (chiusura o riduzione attivit&agrave; per festivit&agrave;/ferie), singole settimane potrebbero scendere a &euro;2.000&ndash;3.000.
+    </div>
+
+    <h3 style="margin-top:24px;">Previsione Annuale 2026</h3>
+    <table>
+      <thead>
+        <tr><th>Periodo</th><th class="right">Importo (&euro;)</th><th>Fonte</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Gennaio &ndash; Marzo 2026 (consuntivo)</td><td class="right">76.436,00</td><td>Fatture emesse</td></tr>
+        <tr><td>Aprile 2026 (consuntivo parz. + stima)</td><td class="right">~28.500,00</td><td>Dati al 27/04 + stima 3 gg</td></tr>
+        <tr><td>Maggio &ndash; Agosto 2026 (forecast)</td><td class="right">~108.000,00</td><td>Run-rate con stagionalit&agrave; estiva</td></tr>
+        <tr><td>Settembre &ndash; Dicembre 2026 (forecast)</td><td class="right">~116.000,00</td><td>Ripresa autunnale +5% su H1</td></tr>
+        <tr class="total-row">
+          <td>TOTALE ANNUALE 2026 (FORECAST)</td>
+          <td class="right">~&euro;328.000&ndash;340.000</td>
+          <td>Range previsionale</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note-box" style="margin-top:12px;">
+      <strong>Nota metodologica:</strong> il forecast &egrave; basato esclusivamente sul run-rate attuale e su stagionalit&agrave; standard del settore diagnostica privata. L&rsquo;assenza di dati storici 2024&ndash;2025 impedisce un confronto YoY. Si raccomanda di fornire i registri degli anni precedenti per aumentare l&rsquo;accuratezza.
+    </div>
+  </div>
+
+  <!-- 5. RISCHI E ANOMALIE -->
+  <div class="card">
+    <h2><span class="num">5</span> Rischi e Anomalie</h2>
+
+    <div class="risk-item high">
+      <h3>7.1 Anomalia W09 &mdash; Febbraio <span class="badge badge-critical">Alta priorit&agrave;</span></h3>
+      <p><strong>Fatto:</strong> settimana 23&ndash;28 febbraio 2026: solo 22 fatture per &euro;2.533 (vs media ~60 fatture e ~&euro;6.500/sett.).</p>
+      <p><strong>Scostamento:</strong> &minus;63% sul numero di prestazioni, &minus;61% sul fatturato rispetto alla media del mese.</p>
+      <p><strong>Possibili cause:</strong> chiusura parziale per Carnevale/festivit&agrave; locali; problema tecnico/amministrativo nella registrazione; periodo di ridotta domanda strutturale.</p>
+      <p class="action">&#10132; Il direttore sanitario/amministrativo di Medika deve chiarire la causa. Se chiusura pianificata, inserirla nel calendario previsionale; se problema di registrazione, verificare eventuali fatture mancanti.</p>
+    </div>
+
+    <div class="risk-item medium">
+      <h3>7.2 Assenza totale di pazienti SSN <span class="badge badge-medium">Media priorit&agrave;</span></h3>
+      <p>100% dei ricavi da privati. Nessuna prestazione SSN &mdash; dipendenza totale dal potere d&rsquo;acquisto dei pazienti privati.</p>
+      <p class="action">&#10132; Verificare se la struttura ha o ha avuto convenzioni SSN. Valutare strategicamente se ricercarle per diversificare il mix ricavi.</p>
+    </div>
+
+    <div class="risk-item low">
+      <h3>7.3 Assenza di note di credito <span class="badge badge-low">Bassa priorit&agrave;</span></h3>
+      <p>Zero NC emesse nel periodo Gen&ndash;Apr 2026. Pu&ograve; essere positivo (bassa contestazione) o indicare gestione al di fuori del sistema standard.</p>
+      <p class="action">&#10132; Verificare con il commercialista.</p>
+    </div>
+
+    <div class="risk-item medium">
+      <h3>7.4 Variabilit&agrave; settimanale elevata <span class="badge badge-medium">Media priorit&agrave;</span></h3>
+      <p>Escludendo le settimane parziali, il fatturato varia da &euro;2.533 (W09) a &euro;8.490 (W16). Impatta sulla pianificazione delle risorse e degli appuntamenti.</p>
+    </div>
+  </div>
+
+  <!-- 6. RACCOMANDAZIONI -->
+  <div class="card">
+    <h2><span class="num">6</span> Raccomandazioni</h2>
+
+    <div class="action-block urgent">
+      <h3>[Urgente] Indagine anomalia W09</h3>
+      <ol>
+        <li><strong>Chiarire l&rsquo;anomalia W09:</strong> richiedere al management di Medika spiegazione formale del crollo del fatturato nella settimana 23&ndash;28 febbraio 2026. Aggiornare il modello previsionale di conseguenza.</li>
+      </ol>
+    </div>
+
+    <div class="action-block high-p">
+      <h3>[Alta] Completamento dati</h3>
+      <ol start="2">
+        <li><strong>Fornire dati di costo:</strong> richiedere al commercialista o all&rsquo;amministrazione di Medika i dati dei costi operativi (personale, struttura, forniture) per Gen&ndash;Apr 2026. Senza di essi &egrave; impossibile calcolare EBITDA e margini.</li>
+        <li><strong>Dati storici 2024&ndash;2025:</strong> fornire i registri fatture degli esercizi precedenti per costruire un confronto YoY attendibile e calibrare i forecast stagionali.</li>
+      </ol>
+    </div>
+
+    <div class="action-block medium-p">
+      <h3>[Media] Strategia ricavi</h3>
+      <ol start="4">
+        <li><strong>Valutare la strategia SSN:</strong> la struttura opera interamente su privati. Considerare se &egrave; una scelta strategica deliberata o un&rsquo;opportunit&agrave; mancata. Una convenzione SSN parziale potrebbe stabilizzare i ricavi nei mesi estivi.</li>
+        <li><strong>Monitoraggio del ticket medio:</strong> il ticket medio (&euro;104,24) &egrave; stabile tra i mesi. Valutare l&rsquo;opportunit&agrave; di revisione del listino prezzi o di introduzione di pacchetti diagnostici ad alto valore.</li>
+      </ol>
+    </div>
+
+    <div class="action-block low-p">
+      <h3>[Bassa] Verifica operativa</h3>
+      <ol start="6">
+        <li><strong>Verifica flag &ldquo;C&rdquo; (incasso):</strong> confermare con il commercialista che il flag &ldquo;C&rdquo; nel registro fatture corrisponde a effettivo incasso. Se tutte le fatture risultano gi&agrave; incassate, il ciclo di cassa &egrave; sano.</li>
+      </ol>
+    </div>
+  </div>
+
+</div>
+<footer>
+  <p>Report elaborato dal Group CFO, Amat Srl &nbsp;|&nbsp; 28 aprile 2026 &nbsp;|&nbsp; Fonte: Radiologia Mediterranea Srl (brand Medika) &mdash; Export fatture 18, 979 documenti</p>
+</footer>
+</body>
+</html>
